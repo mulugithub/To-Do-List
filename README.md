@@ -72,11 +72,11 @@
 
 > The following are the key features of the application.
 
-- [ ] Linters setup
-- [ ] Setup project with webpack
-- [ ] HTML template
-- [ ] Render task list dynamically with javascript
-- [ ] style the app with CSS loader
+- [ ]  Linters setup
+- [ ]  Setup project with webpack
+- [ ]  HTML template
+- [ ]  Render task list dynamically with javascript
+- [ ]  style the app with CSS loader
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -87,7 +87,7 @@
 
 > Click the live demo to access the application.
 
-- [Click here to see the Live Demo](https:/mulugithub.github.io/To-Do-List/dist/) of the project.
+- [Click here to see the Live Demo](https://mulugithub.github.io/To-Do-List/dist/) of the project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -162,8 +162,8 @@ To check for js errors run:
 
 > The following features will add to the project.
 
-- [] Add and remove list
-- [] Interactive list
+- [ ]  Add and remove list
+- [ ]  Interactive list
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 <!-- CONTRIBUTING -->
