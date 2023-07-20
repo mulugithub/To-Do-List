@@ -1,0 +1,43 @@
+body {
+  background-color: #fff;
+}
+
+.logo {
+  width: 20%;
+  height: auto;
+  border-radius: 50%;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  min-width: 50%;
+  max-width: 100%;
+  border-radius: 0.5rem;
+  background-color: #eeeaea;
+  margin: 0;
+}
+
+h2 {
+  margin: 0;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  align-items: center;
+}
+
+li {
+  margin-bottom: 0.56rem;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  margin-right: 0.8rem;
+}
