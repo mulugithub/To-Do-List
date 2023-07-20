@@ -12,25 +12,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-var renderTasks = function renderTasks(tasks) {
-  var taskList = document.getElementById('task-list');
-  var ul = document.createElement('ul');
+var tasks = [{
+  description: 'wash the dishes',
+  completed: true,
+  index: 1
+}, {
+  description: 'complete To Do list project',
+  completed: false,
+  index: 2
+}];
+function renderTasks() {
+  var todoList = document.querySelector('.todo-list');
   tasks.sort(function (a, b) {
     return a.index - b.index;
-  }).forEach(function (task) {
-    var li = document.createElement('li');
-    var input = document.createElement('input');
-    input.type = 'checkbox';
-    input.checked = task.completed;
-    input.classList.add('checkbox');
-    var span = document.createElement('span');
-    span.textContent = task.description;
-    li.appendChild(input);
-    li.appendChild(span);
-    ul.appendChild(li);
   });
-  taskList.appendChild(ul);
-};
+  tasks.forEach(function (task) {
+    var todoItem = document.createElement('li');
+    todoItem.classList.add('todo-item');
+    var checkboxInput = document.createElement('input');
+    checkboxInput.type = 'checkbox';
+    if (task.completed) {
+      checkboxInput.classList.add('task-checkBox');
+      todoItem.classList.add('completed-task');
+    }
+    var todoDescription = document.createElement('span');
+    todoDescription.textContent = task.description;
+    todoDescription.classList.add('description');
+    var ellispsisIcon = document.createElement('i');
+    ellispsisIcon.className = 'fa-solid fa-ellipsis-vertical';
+    ellispsisIcon.classList.add('ellispsis-icon');
+    todoItem.appendChild(checkboxInput);
+    todoItem.appendChild(todoDescription);
+    todoItem.appendChild(ellispsisIcon);
+    todoList.appendChild(todoItem);
+  });
+}
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderTasks);
 
 /***/ }),
@@ -53,52 +69,102 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `body {
-  background-color: #fff;
+___CSS_LOADER_EXPORT___.push([module.id, `* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.logo {
-  width: 20%;
-  height: auto;
-  border-radius: 50%;
-}
-
-section {
+body {
+  font-family: "Lato", sans-serif;
+  background-color: #f5f5f5;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #000;
-  min-width: 50%;
-  max-width: 100%;
-  border-radius: 0.5rem;;
-  background-color: #ccc;
+  min-height: 80vh;
+  font-size: 1.25rem;
 }
 
-span {
-  margin: 0;
-  text-align: center;
-  padding: 0.5rem;
+.todo-container {
+  position: relative;
+  box-shadow: 0 3px 10px rgba(14, 13, 13, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #fff;
+  margin: 0 auto;
+  width: 60%;
 }
 
- ul {
-  list-style: none;
-  padding: 0;
+.todo-header,
+form {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid #f1f1f1;
 }
 
+.todo-header {
+  padding: 1.5rem 1rem;
+}
 
-li {
-  margin-bottom: 10px;
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1rem;
+  gap: 1.5rem;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+.todo-item .description {
+  width: 100%;
+}
+
+.completed-task {
+  text-decoration: line-through;
+}
+
+input {
+  border: none;
+  padding: 0.8rem;
+  outline: none;
+  flex-grow: 4;
+  background-color: transparent;
+}
+
+.clear-todo {
+  background-color: #f5f5f5;
+  border: none;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  outline: none;
+  cursor: pointer;
 }
 
-.checkbox {
-  margin-right: 10px;
+.clear-todo:hover {
+  text-decoration: underline;
 }
-`, "",{"version":3,"sources":["webpack://./src/css/style.css"],"names":[],"mappings":"AAAA;EACE,sBAAsB;AACxB;;AAEA;EACE,UAAU;EACV,YAAY;EACZ,kBAAkB;AACpB;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,mBAAmB;EACnB,uBAAuB;EACvB,sBAAsB;EACtB,cAAc;EACd,eAAe;EACf,qBAAqB;EACrB,sBAAsB;AACxB;;AAEA;EACE,SAAS;EACT,kBAAkB;EAClB,eAAe;AACjB;;CAEC;EACC,gBAAgB;EAChB,UAAU;EACV,mBAAmB;AACrB;;;AAGA;EACE,mBAAmB;EACnB,aAAa;EACb,mBAAmB;AACrB;;AAEA;EACE,kBAAkB;AACpB","sourcesContent":["body {\r\n  background-color: #fff;\r\n}\r\n\r\n.logo {\r\n  width: 20%;\r\n  height: auto;\r\n  border-radius: 50%;\r\n}\r\n\r\nsection {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border: 1px solid #000;\r\n  min-width: 50%;\r\n  max-width: 100%;\r\n  border-radius: 0.5rem;;\r\n  background-color: #ccc;\r\n}\r\n\r\nspan {\r\n  margin: 0;\r\n  text-align: center;\r\n  padding: 0.5rem;\r\n}\r\n\r\n ul {\r\n  list-style: none;\r\n  padding: 0;\r\n  align-items: center;\r\n}\r\n\r\n\r\nli {\r\n  margin-bottom: 10px;\r\n  display: flex;\r\n  align-items: center;\r\n}\r\n\r\n.checkbox {\r\n  margin-right: 10px;\r\n}\r\n"],"sourceRoot":""}]);
+
+form > input {
+  font-style: italic;
+  font-size: 1.2rem;
+}
+`, "",{"version":3,"sources":["webpack://./src/css/style.css"],"names":[],"mappings":"AACA;EACE,UAAU;EACV,SAAS;EACT,sBAAsB;AACxB;;AAEA;EACE,+BAA+B;EAC/B,yBAAyB;EACzB,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,kBAAkB;EAClB,4CAA4C;EAC5C,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,gBAAgB;EAChB,cAAc;EACd,UAAU;AACZ;;AAEA;;EAEE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,oBAAoB;EACpB,gCAAgC;AAClC;;AAEA;EACE,oBAAoB;AACtB;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,WAAW;EACX,cAAc;EACd,gBAAgB;AAClB;;AAEA;EACE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,kBAAkB;EAClB,WAAW;EACX,gCAAgC;AAClC;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,6BAA6B;AAC/B;;AAEA;EACE,YAAY;EACZ,eAAe;EACf,aAAa;EACb,YAAY;EACZ,6BAA6B;AAC/B;;AAEA;EACE,yBAAyB;EACzB,YAAY;EACZ,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,aAAa;EACb,aAAa;EACb,eAAe;AACjB;;AAEA;EACE,0BAA0B;AAC5B;;AAEA;EACE,kBAAkB;EAClB,iBAAiB;AACnB","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap\");\r\n* {\r\n  padding: 0;\r\n  margin: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  font-family: \"Lato\", sans-serif;\r\n  background-color: #f5f5f5;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  min-height: 80vh;\r\n  font-size: 1.25rem;\r\n}\r\n\r\n.todo-container {\r\n  position: relative;\r\n  box-shadow: 0 3px 10px rgba(14, 13, 13, 0.2);\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  background: #fff;\r\n  margin: 0 auto;\r\n  width: 60%;\r\n}\r\n\r\n.todo-header,\r\nform {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1rem;\r\n  border-bottom: 2px solid #f1f1f1;\r\n}\r\n\r\n.todo-header {\r\n  padding: 1.5rem 1rem;\r\n}\r\n\r\n.todo-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  overflow: hidden;\r\n}\r\n\r\n.todo-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 1rem 1rem;\r\n  gap: 1.5rem;\r\n  border-bottom: 2px solid #f1f1f1;\r\n}\r\n\r\n.todo-item .description {\r\n  width: 100%;\r\n}\r\n\r\n.completed-task {\r\n  text-decoration: line-through;\r\n}\r\n\r\ninput {\r\n  border: none;\r\n  padding: 0.8rem;\r\n  outline: none;\r\n  flex-grow: 4;\r\n  background-color: transparent;\r\n}\r\n\r\n.clear-todo {\r\n  background-color: #f5f5f5;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 2rem;\r\n  outline: none;\r\n  cursor: pointer;\r\n}\r\n\r\n.clear-todo:hover {\r\n  text-decoration: underline;\r\n}\r\n\r\nform > input {\r\n  font-style: italic;\r\n  font-size: 1.2rem;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -629,16 +695,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./css/style.css */ "./src/css/style.css");
 
 
-var tasks = [{
-  description: 'wash the dishes',
-  completed: true,
-  index: 1
-}, {
-  description: 'complete To Do list project',
-  completed: false,
-  index: 2
-}];
-(0,_modules_renderTasks_js__WEBPACK_IMPORTED_MODULE_0__["default"])(tasks);
+document.addEventListener('DOMContentLoaded', function () {
+  (0,_modules_renderTasks_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+});
 })();
 
 /******/ })()
