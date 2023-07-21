@@ -1,6 +1,24 @@
-import displayList from './modules/renderTasks.js';
 import './css/style.css';
+import ToDoCRUD from './modules/todoCRUD.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  displayList();
+const todo = new ToDoCRUD();
+const addButton = document.getElementById('add-btn');
+addButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  const description = document.getElementById('add-task').value;
+  if (description !== '') {
+    todo.addItem(description);
+  }
 });
+
+document.getElementById('add-task').addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    const description = document.getElementById('add-task').value;
+    if (description !== '') {
+      todo.addItem(description);
+    }
+  }
+});
+
+todo.display();
