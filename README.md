@@ -77,6 +77,9 @@
 - [ ]  HTML template
 - [ ]  Render task list dynamically with javascript
 - [ ]  style the app with CSS loader
+- [ ]  Add todo item
+- [ ]  Delete todo item
+- [ ]  Update todo item
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -162,7 +165,6 @@ To check for js errors run:
 
 > The following features will add to the project.
 
-- [ ]  Add and remove list
 - [ ]  Interactive list
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
