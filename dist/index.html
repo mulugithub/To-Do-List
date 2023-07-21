@@ -10,16 +10,16 @@
   <body>
     <div class="todo-container">
       <div class="todo-header">
-          <span>Today's To Do</span>
-          <i class="fa fa-sharp fa-arrows-rotate"></i>
+          <span class="todo-title">Today's To Do</span>
+          <button type="submit" id="refresh-btn"><i class="fa fa-sharp fa-arrows-rotate"></i></button>
       </div>
       <form action="">
-          <input type="text" placeholder="Add to your list..." class="input-todo">
-          <i class="fa fa-arrow-turn-down"></i>            
+          <input type="text" placeholder="Add to your list..." id="add-task" class="input-task">
+          <button type="submit" id="add-btn"><i class="fa fa-plus"></i>    </button>        
       </form>
       <ul class="todo-list">
       </ul>
-      <div class="clear-todo">Clear all completed </div>
+      <div class="clear-completed" id="clear">Clear all completed </div>
   </div>
   </body>
 </html>
