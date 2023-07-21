@@ -3,7 +3,7 @@ import { saveData, loadData } from './localStorage.js';
 
 class TodoList {
   constructor() {
-    this.taskList = loadData();
+    this.taskList = [];
   }
 
    // Add new item to To-Do List
@@ -17,6 +17,11 @@ class TodoList {
    // Delete todo item
    deleteItem = (index) => {
      this.taskList.splice(index, 1);
+
+     // Update indexes of remaining items
+     this.taskList.slice(index).forEach((item, i) => {
+       item.index = index + i + 1;
+     });
      saveData(this.taskList);
      this.display();
    };
