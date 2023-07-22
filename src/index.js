@@ -1,6 +1,5 @@
 import './css/style.css';
 import ToDoCRUD from './modules/todoCRUD.js';
-// import { saveData, loadData } from './modules/localStorage.js';
 
 const todo = new ToDoCRUD();
 const addButton = document.getElementById('add-btn');
