@@ -59,6 +59,8 @@ form {
 
 .todo-item .description {
   width: 100%;
+  color: #6d6868;
+  font-size: 1.25rem;
 }
 
 input {
@@ -68,17 +70,19 @@ input {
   background-color: transparent;
 }
 
-.checkmark {
+.todoCheck {
   display: inline-block;
-  height: 20px;
-  width: 20px;
+  height: 1.25rem;
+  width: 1.25rem;
   margin-right: 16px;
-  border: 2px solid #eee;
+  border: 3px solid #ccc;
   flex-shrink: 0;
 }
 
 .clear-completed {
-  background-color: #ccc;
+  background-color: #eee;
+  color: #6d6868;
+  font-size: 1.25rem;
   border: none;
   display: flex;
   align-items: center;
@@ -92,20 +96,12 @@ button.hidden {
   display: none;
 }
 
-.checkmark.darken {
-  border: 2px solid #938f8f;
-}
-
-.clear-completed:hover {
-  text-decoration: underline;
-}
-
 .input-task {
   font-style: italic;
   font-size: 1.2rem;
 }
 
-li.list-highlight {
+.todo-item.list-highlight {
   background-color: #e2e5b9;
 }
 
@@ -114,4 +110,66 @@ button {
   background-color: transparent;
   font-size: 1.25rem;
   cursor: pointer;
+}
+
+.completed-task {
+  text-decoration: line-through;
+}
+
+.completed-task:hover {
+  color: #08910f;
+}
+
+.todoCheck::after {
+  content: "";
+  display: none;
+}
+
+.todoCheck.checked::after {
+  display: block;
+}
+
+.todoCheck.darken {
+  border: 2px solid #938f8f;
+}
+
+.todo-item .todoCheck.checked {
+  border: none;
+}
+
+.clear-completed:hover {
+  text-decoration: underline;
+}
+
+.todo-item .todoCheck::after {
+  position: relative;
+  top: 2px;
+  left: 7px;
+  width: 0.5rem;
+  height: 1rem;
+  border: solid #0b5d9b;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.todo-refresh,
+.todo-add {
+  color: #6d6868;
+}
+
+.todo-item .todo-delete:hover {
+  color: #f00;
+}
+
+.todo-item .todo-move {
+  cursor: move;
+  color: #6d6868;
+}
+
+.todo-item .todo-move:hover,
+.todo-refresh:hover,
+.todo-add:hover {
+  color: #040202;
 }
