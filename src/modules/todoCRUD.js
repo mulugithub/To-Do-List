@@ -1,4 +1,5 @@
 import Todo from './Todo-object.js';
+import updateStatus from './updateStatus.js';
 import { saveData, loadData } from './localStorage.js';
 
 class TodoList {
@@ -32,6 +33,19 @@ class TodoList {
       saveData(this.taskList);
     };
 
+    // clear all completed  task from list
+    clearCompleted = () => {
+      this.taskList = loadData();
+      const incompleteTasks = this.taskList.filter((todo) => !todo.completed);
+      this.taskList = incompleteTasks;
+      // Update indexes of incomplete tasks
+      incompleteTasks.forEach((todo, index) => {
+        todo.index = index + 1;
+      });
+      saveData(incompleteTasks);
+      this.display();
+    };
+
     // render todo list item
     renderList = (arr) => {
       const todoList = document.querySelector('.todo-list');
@@ -44,29 +58,35 @@ class TodoList {
       const todoItems = sortedArr.map((task, index) => {
         const todoItem = document.createElement('li');
         const input = document.createElement('input');
-        const checkmark = document.createElement('span');
-        const moveBtn = document.createElement('button');
+        const todoCheck = document.createElement('span');
+        const todoMoveBtn = document.createElement('button');
         const deleteBtn = document.createElement('button');
         const ellipsisIcon = document.createElement('i');
         const trashIcon = document.createElement('i');
 
         todoItem.classList.add('todo-item');
         input.classList.add('description');
+        todoMoveBtn.classList.add('todo-move');
+        deleteBtn.classList.add('todo-delete');
 
         task.index = index + 1;
+        if (task.completed) {
+          todoCheck.classList.add('checked');
+          input.classList.add('completed-task');
+        }
 
         input.value = `${task.description}`;
         ellipsisIcon.className = 'fa-solid fa-ellipsis-vertical';
         trashIcon.className = 'fa-regular fa-trash-can';
         deleteBtn.classList.add('hidden');
-        checkmark.classList.add('checkmark');
+        todoCheck.classList.add('todoCheck');
 
-        moveBtn.appendChild(ellipsisIcon);
+        todoMoveBtn.appendChild(ellipsisIcon);
         deleteBtn.appendChild(trashIcon);
-        todoItem.appendChild(checkmark);
+        todoItem.appendChild(todoCheck);
         todoItem.appendChild(input);
         todoItem.appendChild(deleteBtn);
-        todoItem.appendChild(moveBtn);
+        todoItem.appendChild(todoMoveBtn);
 
         // Delete todo list item when user click on deleteBtn
         deleteBtn.addEventListener('click', () => {
@@ -78,24 +98,25 @@ class TodoList {
             element.classList.remove('list-highlight');
           });
           todoItem.classList.add('list-highlight');
-          checkmark.classList.add('darken');
-          moveBtn.classList.add('hidden');
+          todoCheck.classList.add('darken');
+          todoMoveBtn.classList.add('hidden');
           deleteBtn.classList.remove('hidden');
         });
 
         input.addEventListener('blur', () => {
           document.querySelectorAll('li').forEach((element) => {
             element.classList.remove('list-highlight');
+            element.classList.add('completed-task');
           });
-          checkmark.classList.remove('darken');
+          todoCheck.classList.remove('darken');
           setTimeout(() => {
             deleteBtn.classList.add('hidden');
-            moveBtn.classList.remove('hidden');
+            todoMoveBtn.classList.remove('hidden');
           }, 300);
         });
 
         input.addEventListener('keyup', () => this.updateInput(index, input));
-
+        todoCheck.addEventListener('click', () => updateStatus(todoCheck, sortedArr, index));
         return todoItem;
       });
         // Append all elements to the todoList at once
