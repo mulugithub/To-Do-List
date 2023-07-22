@@ -60,7 +60,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Todo_object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Todo-object.js */ "./src/modules/Todo-object.js");
-/* harmony import */ var _localStorage_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./localStorage.js */ "./src/modules/localStorage.js");
+/* harmony import */ var _updateStatus_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./updateStatus.js */ "./src/modules/updateStatus.js");
+/* harmony import */ var _localStorage_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./localStorage.js */ "./src/modules/localStorage.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -76,13 +77,14 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 
+
 var TodoList = /*#__PURE__*/_createClass(function TodoList() {
   var _this = this;
   _classCallCheck(this, TodoList);
   // Add new item to To-Do List
   _defineProperty(this, "addItem", function (description) {
     _this.taskList.push(new _Todo_object_js__WEBPACK_IMPORTED_MODULE_0__["default"](description, _this.taskList.length));
-    (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveData)(_this.taskList);
+    (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_2__.saveData)(_this.taskList);
     _this.display();
     document.getElementById('add-task').value = '';
   });
@@ -94,13 +96,27 @@ var TodoList = /*#__PURE__*/_createClass(function TodoList() {
     _this.taskList.slice(index).forEach(function (item, i) {
       item.index = index + i + 1;
     });
-    (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveData)(_this.taskList);
+    (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_2__.saveData)(_this.taskList);
     _this.display();
   });
   // update to do list
   _defineProperty(this, "updateInput", function (index, input) {
     _this.taskList[index].description = input.value;
-    (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_1__.saveData)(_this.taskList);
+    (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_2__.saveData)(_this.taskList);
+  });
+  // clear all completed  task from list
+  _defineProperty(this, "clearCompleted", function () {
+    _this.taskList = (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_2__.loadData)();
+    var incompleteTasks = _this.taskList.filter(function (todo) {
+      return !todo.completed;
+    });
+    _this.taskList = incompleteTasks;
+    // Update indexes of incomplete tasks
+    incompleteTasks.forEach(function (todo, index) {
+      todo.index = index + 1;
+    });
+    (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_2__.saveData)(incompleteTasks);
+    _this.display();
   });
   // render todo list item
   _defineProperty(this, "renderList", function (arr) {
@@ -115,25 +131,31 @@ var TodoList = /*#__PURE__*/_createClass(function TodoList() {
     var todoItems = sortedArr.map(function (task, index) {
       var todoItem = document.createElement('li');
       var input = document.createElement('input');
-      var checkmark = document.createElement('span');
-      var moveBtn = document.createElement('button');
+      var todoCheck = document.createElement('span');
+      var todoMoveBtn = document.createElement('button');
       var deleteBtn = document.createElement('button');
       var ellipsisIcon = document.createElement('i');
       var trashIcon = document.createElement('i');
       todoItem.classList.add('todo-item');
       input.classList.add('description');
+      todoMoveBtn.classList.add('todo-move');
+      deleteBtn.classList.add('todo-delete');
       task.index = index + 1;
+      if (task.completed) {
+        todoCheck.classList.add('checked');
+        input.classList.add('completed-task');
+      }
       input.value = "".concat(task.description);
       ellipsisIcon.className = 'fa-solid fa-ellipsis-vertical';
       trashIcon.className = 'fa-regular fa-trash-can';
       deleteBtn.classList.add('hidden');
-      checkmark.classList.add('checkmark');
-      moveBtn.appendChild(ellipsisIcon);
+      todoCheck.classList.add('todoCheck');
+      todoMoveBtn.appendChild(ellipsisIcon);
       deleteBtn.appendChild(trashIcon);
-      todoItem.appendChild(checkmark);
+      todoItem.appendChild(todoCheck);
       todoItem.appendChild(input);
       todoItem.appendChild(deleteBtn);
-      todoItem.appendChild(moveBtn);
+      todoItem.appendChild(todoMoveBtn);
 
       // Delete todo list item when user click on deleteBtn
       deleteBtn.addEventListener('click', function () {
@@ -144,22 +166,26 @@ var TodoList = /*#__PURE__*/_createClass(function TodoList() {
           element.classList.remove('list-highlight');
         });
         todoItem.classList.add('list-highlight');
-        checkmark.classList.add('darken');
-        moveBtn.classList.add('hidden');
+        todoCheck.classList.add('darken');
+        todoMoveBtn.classList.add('hidden');
         deleteBtn.classList.remove('hidden');
       });
       input.addEventListener('blur', function () {
         document.querySelectorAll('li').forEach(function (element) {
           element.classList.remove('list-highlight');
+          element.classList.add('completed-task');
         });
-        checkmark.classList.remove('darken');
+        todoCheck.classList.remove('darken');
         setTimeout(function () {
           deleteBtn.classList.add('hidden');
-          moveBtn.classList.remove('hidden');
+          todoMoveBtn.classList.remove('hidden');
         }, 300);
       });
       input.addEventListener('keyup', function () {
         return _this.updateInput(index, input);
+      });
+      todoCheck.addEventListener('click', function () {
+        return (0,_updateStatus_js__WEBPACK_IMPORTED_MODULE_1__["default"])(todoCheck, sortedArr, index);
       });
       return todoItem;
     });
@@ -167,11 +193,37 @@ var TodoList = /*#__PURE__*/_createClass(function TodoList() {
     todoList.append.apply(todoList, _toConsumableArray(todoItems));
   });
   _defineProperty(this, "display", function () {
-    _this.renderList((0,_localStorage_js__WEBPACK_IMPORTED_MODULE_1__.loadData)());
+    _this.renderList((0,_localStorage_js__WEBPACK_IMPORTED_MODULE_2__.loadData)());
   });
   this.taskList = [];
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TodoList);
+
+/***/ }),
+
+/***/ "./src/modules/updateStatus.js":
+/*!*************************************!*\
+  !*** ./src/modules/updateStatus.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _localStorage_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./localStorage.js */ "./src/modules/localStorage.js");
+
+var updateStatus = function updateStatus(todoCheck, sortedArr, i) {
+  todoCheck.classList.toggle('checked');
+  if (todoCheck.classList.contains('checked')) {
+    sortedArr[i].completed = true;
+  } else {
+    sortedArr[i].completed = false;
+  }
+  // updated tasks list will be stored in local storage.
+  (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_0__.saveData)(sortedArr);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateStatus);
 
 /***/ }),
 
@@ -254,6 +306,8 @@ form {
 
 .todo-item .description {
   width: 100%;
+  color: #6d6868;
+  font-size: 1.25rem;
 }
 
 input {
@@ -263,17 +317,19 @@ input {
   background-color: transparent;
 }
 
-.checkmark {
+.todoCheck {
   display: inline-block;
-  height: 20px;
-  width: 20px;
+  height: 1.25rem;
+  width: 1.25rem;
   margin-right: 16px;
-  border: 2px solid #eee;
+  border: 3px solid #ccc;
   flex-shrink: 0;
 }
 
 .clear-completed {
-  background-color: #ccc;
+  background-color: #eee;
+  color: #6d6868;
+  font-size: 1.25rem;
   border: none;
   display: flex;
   align-items: center;
@@ -287,20 +343,12 @@ button.hidden {
   display: none;
 }
 
-.checkmark.darken {
-  border: 2px solid #938f8f;
-}
-
-.clear-completed:hover {
-  text-decoration: underline;
-}
-
 .input-task {
   font-style: italic;
   font-size: 1.2rem;
 }
 
-li.list-highlight {
+.todo-item.list-highlight {
   background-color: #e2e5b9;
 }
 
@@ -310,7 +358,69 @@ button {
   font-size: 1.25rem;
   cursor: pointer;
 }
-`, "",{"version":3,"sources":["webpack://./src/css/style.css"],"names":[],"mappings":"AAEA;EACE,UAAU;EACV,SAAS;EACT,sBAAsB;AACxB;;AAEA;EACE,+BAA+B;EAC/B,yBAAyB;EACzB,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,kBAAkB;EAClB,6CAA6C;EAC7C,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,gBAAgB;EAChB,cAAc;EACd,UAAU;AACZ;;AAEA;;EAEE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,oBAAoB;EACpB,gCAAgC;AAClC;;AAEA;EACE,oBAAoB;AACtB;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,WAAW;EACX,cAAc;EACd,gBAAgB;AAClB;;AAEA;EACE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,sBAAsB;EACtB,gCAAgC;AAClC;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,eAAe;EACf,aAAa;EACb,6BAA6B;AAC/B;;AAEA;EACE,qBAAqB;EACrB,YAAY;EACZ,WAAW;EACX,kBAAkB;EAClB,sBAAsB;EACtB,cAAc;AAChB;;AAEA;EACE,sBAAsB;EACtB,YAAY;EACZ,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,aAAa;EACb,aAAa;EACb,eAAe;AACjB;;AAEA;EACE,aAAa;AACf;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,0BAA0B;AAC5B;;AAEA;EACE,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,YAAY;EACZ,6BAA6B;EAC7B,kBAAkB;EAClB,eAAe;AACjB","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap\");\r\n\r\n* {\r\n  padding: 0;\r\n  margin: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  font-family: \"Lato\", sans-serif;\r\n  background-color: #f5f5f5;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  min-height: 80vh;\r\n  font-size: 1.25rem;\r\n}\r\n\r\n.todo-container {\r\n  position: relative;\r\n  box-shadow: 0 3px 10px rgba(19, 17, 17, 0.21);\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  background: #fff;\r\n  margin: 0 auto;\r\n  width: 60%;\r\n}\r\n\r\n.todo-header,\r\nform {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1rem;\r\n  border-bottom: 2px solid #f1f1f1;\r\n}\r\n\r\n.todo-header {\r\n  padding: 1.5rem 1rem;\r\n}\r\n\r\n.todo-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  overflow: hidden;\r\n}\r\n\r\n.todo-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1.5rem;\r\n  border-bottom: 2px solid #f1f1f1;\r\n}\r\n\r\n.todo-item .description {\r\n  width: 100%;\r\n}\r\n\r\ninput {\r\n  border: none;\r\n  padding: 0.8rem;\r\n  outline: none;\r\n  background-color: transparent;\r\n}\r\n\r\n.checkmark {\r\n  display: inline-block;\r\n  height: 20px;\r\n  width: 20px;\r\n  margin-right: 16px;\r\n  border: 2px solid #eee;\r\n  flex-shrink: 0;\r\n}\r\n\r\n.clear-completed {\r\n  background-color: #ccc;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 2rem;\r\n  outline: none;\r\n  cursor: pointer;\r\n}\r\n\r\nbutton.hidden {\r\n  display: none;\r\n}\r\n\r\n.checkmark.darken {\r\n  border: 2px solid #938f8f;\r\n}\r\n\r\n.clear-completed:hover {\r\n  text-decoration: underline;\r\n}\r\n\r\n.input-task {\r\n  font-style: italic;\r\n  font-size: 1.2rem;\r\n}\r\n\r\nli.list-highlight {\r\n  background-color: #e2e5b9;\r\n}\r\n\r\nbutton {\r\n  border: none;\r\n  background-color: transparent;\r\n  font-size: 1.25rem;\r\n  cursor: pointer;\r\n}\r\n"],"sourceRoot":""}]);
+
+.completed-task {
+  text-decoration: line-through;
+}
+
+.completed-task:hover {
+  color: #08910f;
+}
+
+.todoCheck::after {
+  content: "";
+  display: none;
+}
+
+.todoCheck.checked::after {
+  display: block;
+}
+
+.todoCheck.darken {
+  border: 2px solid #938f8f;
+}
+
+.todo-item .todoCheck.checked {
+  border: none;
+}
+
+.clear-completed:hover {
+  text-decoration: underline;
+}
+
+.todo-item .todoCheck::after {
+  position: relative;
+  top: 2px;
+  left: 7px;
+  width: 0.5rem;
+  height: 1rem;
+  border: solid #0b5d9b;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.todo-refresh,
+.todo-add {
+  color: #6d6868;
+}
+
+.todo-item .todo-delete:hover {
+  color: #f00;
+}
+
+.todo-item .todo-move {
+  cursor: move;
+  color: #6d6868;
+}
+
+.todo-item .todo-move:hover,
+.todo-refresh:hover,
+.todo-add:hover {
+  color: #040202;
+}
+`, "",{"version":3,"sources":["webpack://./src/css/style.css"],"names":[],"mappings":"AAEA;EACE,UAAU;EACV,SAAS;EACT,sBAAsB;AACxB;;AAEA;EACE,+BAA+B;EAC/B,yBAAyB;EACzB,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,kBAAkB;EAClB,6CAA6C;EAC7C,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,gBAAgB;EAChB,cAAc;EACd,UAAU;AACZ;;AAEA;;EAEE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,oBAAoB;EACpB,gCAAgC;AAClC;;AAEA;EACE,oBAAoB;AACtB;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,WAAW;EACX,cAAc;EACd,gBAAgB;AAClB;;AAEA;EACE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,sBAAsB;EACtB,gCAAgC;AAClC;;AAEA;EACE,WAAW;EACX,cAAc;EACd,kBAAkB;AACpB;;AAEA;EACE,YAAY;EACZ,eAAe;EACf,aAAa;EACb,6BAA6B;AAC/B;;AAEA;EACE,qBAAqB;EACrB,eAAe;EACf,cAAc;EACd,kBAAkB;EAClB,sBAAsB;EACtB,cAAc;AAChB;;AAEA;EACE,sBAAsB;EACtB,cAAc;EACd,kBAAkB;EAClB,YAAY;EACZ,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,aAAa;EACb,aAAa;EACb,eAAe;AACjB;;AAEA;EACE,aAAa;AACf;;AAEA;EACE,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,YAAY;EACZ,6BAA6B;EAC7B,kBAAkB;EAClB,eAAe;AACjB;;AAEA;EACE,6BAA6B;AAC/B;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,WAAW;EACX,aAAa;AACf;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,0BAA0B;AAC5B;;AAEA;EACE,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,aAAa;EACb,YAAY;EACZ,qBAAqB;EACrB,yBAAyB;EACzB,gCAAgC;EAChC,4BAA4B;EAC5B,wBAAwB;AAC1B;;AAEA;;EAEE,cAAc;AAChB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,cAAc;AAChB;;AAEA;;;EAGE,cAAc;AAChB","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap\");\r\n\r\n* {\r\n  padding: 0;\r\n  margin: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  font-family: \"Lato\", sans-serif;\r\n  background-color: #f5f5f5;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  min-height: 80vh;\r\n  font-size: 1.25rem;\r\n}\r\n\r\n.todo-container {\r\n  position: relative;\r\n  box-shadow: 0 3px 10px rgba(19, 17, 17, 0.21);\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  background: #fff;\r\n  margin: 0 auto;\r\n  width: 60%;\r\n}\r\n\r\n.todo-header,\r\nform {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1rem;\r\n  border-bottom: 2px solid #f1f1f1;\r\n}\r\n\r\n.todo-header {\r\n  padding: 1.5rem 1rem;\r\n}\r\n\r\n.todo-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  overflow: hidden;\r\n}\r\n\r\n.todo-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1.5rem;\r\n  border-bottom: 2px solid #f1f1f1;\r\n}\r\n\r\n.todo-item .description {\r\n  width: 100%;\r\n  color: #6d6868;\r\n  font-size: 1.25rem;\r\n}\r\n\r\ninput {\r\n  border: none;\r\n  padding: 0.8rem;\r\n  outline: none;\r\n  background-color: transparent;\r\n}\r\n\r\n.todoCheck {\r\n  display: inline-block;\r\n  height: 1.25rem;\r\n  width: 1.25rem;\r\n  margin-right: 16px;\r\n  border: 3px solid #ccc;\r\n  flex-shrink: 0;\r\n}\r\n\r\n.clear-completed {\r\n  background-color: #eee;\r\n  color: #6d6868;\r\n  font-size: 1.25rem;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 2rem;\r\n  outline: none;\r\n  cursor: pointer;\r\n}\r\n\r\nbutton.hidden {\r\n  display: none;\r\n}\r\n\r\n.input-task {\r\n  font-style: italic;\r\n  font-size: 1.2rem;\r\n}\r\n\r\n.todo-item.list-highlight {\r\n  background-color: #e2e5b9;\r\n}\r\n\r\nbutton {\r\n  border: none;\r\n  background-color: transparent;\r\n  font-size: 1.25rem;\r\n  cursor: pointer;\r\n}\r\n\r\n.completed-task {\r\n  text-decoration: line-through;\r\n}\r\n\r\n.completed-task:hover {\r\n  color: #08910f;\r\n}\r\n\r\n.todoCheck::after {\r\n  content: \"\";\r\n  display: none;\r\n}\r\n\r\n.todoCheck.checked::after {\r\n  display: block;\r\n}\r\n\r\n.todoCheck.darken {\r\n  border: 2px solid #938f8f;\r\n}\r\n\r\n.todo-item .todoCheck.checked {\r\n  border: none;\r\n}\r\n\r\n.clear-completed:hover {\r\n  text-decoration: underline;\r\n}\r\n\r\n.todo-item .todoCheck::after {\r\n  position: relative;\r\n  top: 2px;\r\n  left: 7px;\r\n  width: 0.5rem;\r\n  height: 1rem;\r\n  border: solid #0b5d9b;\r\n  border-width: 0 3px 3px 0;\r\n  -webkit-transform: rotate(45deg);\r\n  -ms-transform: rotate(45deg);\r\n  transform: rotate(45deg);\r\n}\r\n\r\n.todo-refresh,\r\n.todo-add {\r\n  color: #6d6868;\r\n}\r\n\r\n.todo-item .todo-delete:hover {\r\n  color: #f00;\r\n}\r\n\r\n.todo-item .todo-move {\r\n  cursor: move;\r\n  color: #6d6868;\r\n}\r\n\r\n.todo-item .todo-move:hover,\r\n.todo-refresh:hover,\r\n.todo-add:hover {\r\n  color: #040202;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -841,6 +951,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_todoCRUD_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/todoCRUD.js */ "./src/modules/todoCRUD.js");
 
 
+// import { saveData, loadData } from './modules/localStorage.js';
+
 var todo = new _modules_todoCRUD_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
 var addButton = document.getElementById('add-btn');
 addButton.addEventListener('click', function (event) {
@@ -850,6 +962,20 @@ addButton.addEventListener('click', function (event) {
     todo.addItem(description);
   }
 });
+
+// display updated todo list when user click on refresh btn
+var refreshBtn = document.getElementById('refresh-btn');
+refreshBtn.addEventListener('click', function () {
+  todo.display();
+});
+
+// Delete all completed task when user click on clear btn
+var clearCompletedBtn = document.getElementById('clear');
+clearCompletedBtn.addEventListener('click', function () {
+  todo.clearCompleted();
+});
+
+// Add todo item when user press enter key
 document.getElementById('add-task').addEventListener('keypress', function (event) {
   if (event.key === 'Enter') {
     event.preventDefault();
@@ -859,7 +985,9 @@ document.getElementById('add-task').addEventListener('keypress', function (event
     }
   }
 });
-todo.display();
+window.addEventListener('load', function () {
+  todo.display();
+});
 })();
 
 /******/ })()

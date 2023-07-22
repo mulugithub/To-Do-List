@@ -80,6 +80,8 @@
 - [ ]  Add todo item
 - [ ]  Delete todo item
 - [ ]  Update todo item
+- [ ]  Clear all completed todo item
+- [ ]  Show mark task completion when click on checkbox
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -165,7 +167,9 @@ To check for js errors run:
 
 > The following features will add to the project.
 
-- [ ]  Interactive list
+- [ ]  Dragging each item and moving it into the desired position
+- [ ]  Implement testing
+- [ ]  Rebulid using React
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 <!-- CONTRIBUTING -->
