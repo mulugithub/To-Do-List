@@ -81,7 +81,7 @@ describe('TodoList', () => {
 
     test('should remove the task at the end of the todo list', () => {
       // Call the function to remove at the end of the list
-      const lastItemIndex = todoList.taskList.length-1;
+      const lastItemIndex = todoList.taskList.length - 1;
       todoList.deleteItem(lastItemIndex);
       // Assertions
       expect(todoList.taskList).toEqual([
