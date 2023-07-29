@@ -86,7 +86,12 @@ var TodoList = /*#__PURE__*/_createClass(function TodoList() {
     _this.taskList.push(new _Todo_object_js__WEBPACK_IMPORTED_MODULE_0__["default"](description, _this.taskList.length));
     (0,_localStorage_js__WEBPACK_IMPORTED_MODULE_2__.saveData)(_this.taskList);
     _this.display();
-    document.getElementById('add-task').value = '';
+    //  document.getElementById('add-task').value = '';
+    var inputElement = document.getElementById('add-task');
+    if (inputElement) {
+      // Check if element exists before setting value
+      inputElement.value = '';
+    }
   });
   // Delete todo item
   _defineProperty(this, "deleteItem", function (index) {
@@ -950,8 +955,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./css/style.css */ "./src/css/style.css");
 /* harmony import */ var _modules_todoCRUD_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/todoCRUD.js */ "./src/modules/todoCRUD.js");
 
-
-// import { saveData, loadData } from './modules/localStorage.js';
 
 var todo = new _modules_todoCRUD_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
 var addButton = document.getElementById('add-btn');
