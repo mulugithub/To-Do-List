@@ -12,7 +12,11 @@ class TodoList {
      this.taskList.push(new Todo(description, this.taskList.length));
      saveData(this.taskList);
      this.display();
-     document.getElementById('add-task').value = '';
+     //  document.getElementById('add-task').value = '';
+     const inputElement = document.getElementById('add-task');
+     if (inputElement) { // Check if element exists before setting value
+       inputElement.value = '';
+     }
    };
 
    // Delete todo item
