@@ -36,14 +36,14 @@ describe('TodoList', () => {
     todoList.taskList = [];
   });
 
-  describe('Add item function', () => {
-    test('Add first Item', () => {
+  describe('Add item method', () => {
+    test('Add first task in the list', () => {
       const initialLength = todoList.taskList.length;
       todoList.addItem('test 1');
       const list = document.querySelectorAll('.todo-list');
       expect(list.length).toBe(initialLength + 1);
     });
-    test('Add second Item', () => {
+    test('Add second task in the list', () => {
       const initialLength = todoList.taskList.length;
       todoList.addItem('test 2');
       const list = document.querySelectorAll('.todo-list');
@@ -51,7 +51,7 @@ describe('TodoList', () => {
     });
   });
 
-  describe('Remove Item function', () => {
+  describe('Remove Item method', () => {
     beforeEach(() => {
       // Initialize
       todoList.taskList.push({ description: 'Task 1', completed: false, index: 1 });
