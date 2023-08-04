@@ -33,20 +33,24 @@ class TodoList {
 
    // update to do list
     updateInput = (index, input) => {
-      this.taskList[index].description = input.value;
-      saveData(this.taskList);
+      // this.taskList[index].description = input.value;
+      // saveData(this.taskList);
+      if (index >= 0 && index < this.taskList.length) {
+        this.taskList[index].description = input.value;
+        saveData(this.taskList);
+      }
     };
 
     // clear all completed  task from list
     clearCompleted = () => {
       this.taskList = loadData();
-      const incompleteTasks = this.taskList.filter((todo) => !todo.completed);
-      this.taskList = incompleteTasks;
+      this.taskList = this.taskList.filter((todo) => !todo.completed);
+      saveData(this.taskList);
       // Update indexes of incomplete tasks
-      incompleteTasks.forEach((todo, index) => {
+      this.taskList.forEach((todo, index) => {
         todo.index = index + 1;
       });
-      saveData(incompleteTasks);
+      saveData(this.taskList);
       this.display();
     };
 
@@ -76,7 +80,6 @@ class TodoList {
         task.index = index + 1;
         if (task.completed) {
           todoCheck.classList.add('checked');
-          input.classList.add('completed-task');
         }
 
         input.value = `${task.description}`;
@@ -110,7 +113,6 @@ class TodoList {
         input.addEventListener('blur', () => {
           document.querySelectorAll('li').forEach((element) => {
             element.classList.remove('list-highlight');
-            element.classList.add('completed-task');
           });
           todoCheck.classList.remove('darken');
           setTimeout(() => {

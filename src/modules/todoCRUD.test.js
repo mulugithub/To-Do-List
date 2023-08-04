@@ -1,4 +1,5 @@
 import TodoList from './todoCRUD';
+import updateCompletedStatus from './updateStatus';
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -21,8 +22,13 @@ const localStorageMock = (() => {
 document.body.innerHTML = `
   <ul class="todo-list">
     <li class="todo-item">
+    <span></span>
     </li>
     <li class="todo-item">
+    <span></span>
+    </li>
+    <li class="todo-item">
+    <span></span>
     </li>
   </ul>
 `;
@@ -52,6 +58,7 @@ describe('TodoList', () => {
   });
 
   describe('Remove Item method', () => {
+    localStorage.clear();
     beforeEach(() => {
       // Initialize
       todoList.taskList.push({ description: 'Task 1', completed: false, index: 1 });
@@ -87,6 +94,46 @@ describe('TodoList', () => {
       expect(todoList.taskList).toEqual([
         { description: 'Task 1', completed: false, index: 1 },
         { description: 'Task 2', completed: false, index: 2 },
+      ]);
+    });
+  });
+  // Edit Task Description function
+  describe('Edit Task Description function', () => {
+    localStorageMock.clear();
+    test('Edit the first task', () => {
+      todoList.addItem('task one');
+      const input = { value: 'task 1' };
+      todoList.updateInput(0, input);
+      // Assertions
+      expect(todoList.taskList[0].description).toEqual('task 1');
+    });
+
+    test('Edit the last task', () => {
+      todoList.addItem('task two');
+      const input = { value: 'task 2' };
+      todoList.updateInput(todoList.taskList.length - 1, input);
+      // Assertions
+      expect(todoList.taskList[todoList.taskList.length - 1].description).toEqual('task 2');
+    });
+  });
+
+  describe('updateCompletedStatus', () => {
+    localStorageMock.clear();
+    beforeEach(() => {
+      // Initialize
+      todoList.taskList.push({ description: 'Task 1', completed: false, index: 1 });
+      todoList.taskList.push({ description: 'Task 2', completed: false, index: 2 });
+      todoList.taskList.push({ description: 'Task 3', completed: true, index: 3 });
+    });
+    test('Check if todo status changes on completion', () => {
+      let firstTodoItem = document.querySelector('.todo-list .todo-item span');
+      updateCompletedStatus(firstTodoItem, todoList.taskList, 0);
+      firstTodoItem = document.querySelector('.todo-list li:nth-child(1)');
+      expect(todoList.taskList[0].completed).toBe(true); // Updated assertion
+      expect(todoList.taskList).toEqual([
+        { description: 'Task 1', completed: true, index: 1 },
+        { description: 'Task 2', completed: false, index: 2 },
+        { description: 'Task 3', completed: true, index: 3 },
       ]);
     });
   });
