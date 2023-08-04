@@ -268,6 +268,11 @@ ___CSS_LOADER_EXPORT___.push([module.id, `* {
   box-sizing: border-box;
 }
 
+:root {
+  --todo-color: #6d6868;
+  --todo-border-bottom: #f1f1f1;
+}
+
 body {
   font-family: "Lato", sans-serif;
   background-color: #f5f5f5;
@@ -295,7 +300,7 @@ form {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  border-bottom: 2px solid #f1f1f1;
+  border-bottom: 2px solid var(--todo-border-bottom);
 }
 
 .todo-header {
@@ -316,12 +321,12 @@ form {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1.5rem;
-  border-bottom: 2px solid #f1f1f1;
+  border-bottom: 2px solid var(--todo-border-bottom);
 }
 
 .todo-item .description {
   width: 100%;
-  color: #6d6868;
+  color: var(--todo-color);
   font-size: 1.25rem;
 }
 
@@ -343,7 +348,7 @@ input {
 
 .clear-completed {
   background-color: #eee;
-  color: #6d6868;
+  color: var(--todo-color);
   font-size: 1.25rem;
   border: none;
   display: flex;
@@ -376,9 +381,6 @@ button {
 
 .completed-task {
   text-decoration: line-through;
-}
-.incompleted-task {
-  text-decoration: none;
 }
 
 .completed-task:hover {
@@ -421,7 +423,7 @@ button {
 
 .todo-refresh,
 .todo-add {
-  color: #6d6868;
+  color: var(--todo-color);
 }
 
 .todo-item .todo-delete:hover {
@@ -430,7 +432,7 @@ button {
 
 .todo-item .todo-move {
   cursor: move;
-  color: #6d6868;
+  color: var(--todo-color);
 }
 
 .todo-item .todo-move:hover,
@@ -438,7 +440,7 @@ button {
 .todo-add:hover {
   color: #040202;
 }
-`, "",{"version":3,"sources":["webpack://./src/css/style.css"],"names":[],"mappings":"AAEA;EACE,UAAU;EACV,SAAS;EACT,sBAAsB;AACxB;;AAEA;EACE,+BAA+B;EAC/B,yBAAyB;EACzB,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,kBAAkB;EAClB,6CAA6C;EAC7C,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,gBAAgB;EAChB,cAAc;EACd,UAAU;AACZ;;AAEA;;EAEE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,oBAAoB;EACpB,gCAAgC;AAClC;;AAEA;EACE,oBAAoB;AACtB;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,WAAW;EACX,cAAc;EACd,gBAAgB;AAClB;;AAEA;EACE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,sBAAsB;EACtB,gCAAgC;AAClC;;AAEA;EACE,WAAW;EACX,cAAc;EACd,kBAAkB;AACpB;;AAEA;EACE,YAAY;EACZ,eAAe;EACf,aAAa;EACb,6BAA6B;AAC/B;;AAEA;EACE,qBAAqB;EACrB,eAAe;EACf,cAAc;EACd,kBAAkB;EAClB,sBAAsB;EACtB,cAAc;AAChB;;AAEA;EACE,sBAAsB;EACtB,cAAc;EACd,kBAAkB;EAClB,YAAY;EACZ,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,aAAa;EACb,aAAa;EACb,eAAe;AACjB;;AAEA;EACE,aAAa;AACf;;AAEA;EACE,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,YAAY;EACZ,6BAA6B;EAC7B,kBAAkB;EAClB,eAAe;AACjB;;AAEA;EACE,6BAA6B;AAC/B;AACA;EACE,qBAAqB;AACvB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,WAAW;EACX,aAAa;AACf;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,0BAA0B;AAC5B;;AAEA;EACE,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,aAAa;EACb,YAAY;EACZ,qBAAqB;EACrB,yBAAyB;EACzB,gCAAgC;EAChC,4BAA4B;EAC5B,wBAAwB;AAC1B;;AAEA;;EAEE,cAAc;AAChB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,cAAc;AAChB;;AAEA;;;EAGE,cAAc;AAChB","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap\");\r\n\r\n* {\r\n  padding: 0;\r\n  margin: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  font-family: \"Lato\", sans-serif;\r\n  background-color: #f5f5f5;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  min-height: 80vh;\r\n  font-size: 1.25rem;\r\n}\r\n\r\n.todo-container {\r\n  position: relative;\r\n  box-shadow: 0 3px 10px rgba(19, 17, 17, 0.21);\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  background: #fff;\r\n  margin: 0 auto;\r\n  width: 60%;\r\n}\r\n\r\n.todo-header,\r\nform {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1rem;\r\n  border-bottom: 2px solid #f1f1f1;\r\n}\r\n\r\n.todo-header {\r\n  padding: 1.5rem 1rem;\r\n}\r\n\r\n.todo-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  overflow: hidden;\r\n}\r\n\r\n.todo-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1.5rem;\r\n  border-bottom: 2px solid #f1f1f1;\r\n}\r\n\r\n.todo-item .description {\r\n  width: 100%;\r\n  color: #6d6868;\r\n  font-size: 1.25rem;\r\n}\r\n\r\ninput {\r\n  border: none;\r\n  padding: 0.8rem;\r\n  outline: none;\r\n  background-color: transparent;\r\n}\r\n\r\n.todoCheck {\r\n  display: inline-block;\r\n  height: 1.25rem;\r\n  width: 1.25rem;\r\n  margin-right: 16px;\r\n  border: 3px solid #ccc;\r\n  flex-shrink: 0;\r\n}\r\n\r\n.clear-completed {\r\n  background-color: #eee;\r\n  color: #6d6868;\r\n  font-size: 1.25rem;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 2rem;\r\n  outline: none;\r\n  cursor: pointer;\r\n}\r\n\r\nbutton.hidden {\r\n  display: none;\r\n}\r\n\r\n.input-task {\r\n  font-style: italic;\r\n  font-size: 1.2rem;\r\n}\r\n\r\n.todo-item.list-highlight {\r\n  background-color: #e2e5b9;\r\n}\r\n\r\nbutton {\r\n  border: none;\r\n  background-color: transparent;\r\n  font-size: 1.25rem;\r\n  cursor: pointer;\r\n}\r\n\r\n.completed-task {\r\n  text-decoration: line-through;\r\n}\r\n.incompleted-task {\r\n  text-decoration: none;\r\n}\r\n\r\n.completed-task:hover {\r\n  color: #08910f;\r\n}\r\n\r\n.todoCheck::after {\r\n  content: \"\";\r\n  display: none;\r\n}\r\n\r\n.todoCheck.checked::after {\r\n  display: block;\r\n}\r\n\r\n.todoCheck.darken {\r\n  border: 2px solid #938f8f;\r\n}\r\n\r\n.todo-item .todoCheck.checked {\r\n  border: none;\r\n}\r\n\r\n.clear-completed:hover {\r\n  text-decoration: underline;\r\n}\r\n\r\n.todo-item .todoCheck::after {\r\n  position: relative;\r\n  top: 2px;\r\n  left: 7px;\r\n  width: 0.5rem;\r\n  height: 1rem;\r\n  border: solid #0b5d9b;\r\n  border-width: 0 3px 3px 0;\r\n  -webkit-transform: rotate(45deg);\r\n  -ms-transform: rotate(45deg);\r\n  transform: rotate(45deg);\r\n}\r\n\r\n.todo-refresh,\r\n.todo-add {\r\n  color: #6d6868;\r\n}\r\n\r\n.todo-item .todo-delete:hover {\r\n  color: #f00;\r\n}\r\n\r\n.todo-item .todo-move {\r\n  cursor: move;\r\n  color: #6d6868;\r\n}\r\n\r\n.todo-item .todo-move:hover,\r\n.todo-refresh:hover,\r\n.todo-add:hover {\r\n  color: #040202;\r\n}\r\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/css/style.css"],"names":[],"mappings":"AAEA;EACE,UAAU;EACV,SAAS;EACT,sBAAsB;AACxB;;AAEA;EACE,qBAAqB;EACrB,6BAA6B;AAC/B;;AAEA;EACE,+BAA+B;EAC/B,yBAAyB;EACzB,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,kBAAkB;EAClB,6CAA6C;EAC7C,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,gBAAgB;EAChB,cAAc;EACd,UAAU;AACZ;;AAEA;;EAEE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,oBAAoB;EACpB,kDAAkD;AACpD;;AAEA;EACE,oBAAoB;AACtB;;AAEA;EACE,aAAa;EACb,sBAAsB;EACtB,uBAAuB;EACvB,WAAW;EACX,cAAc;EACd,gBAAgB;AAClB;;AAEA;EACE,aAAa;EACb,8BAA8B;EAC9B,mBAAmB;EACnB,sBAAsB;EACtB,kDAAkD;AACpD;;AAEA;EACE,WAAW;EACX,wBAAwB;EACxB,kBAAkB;AACpB;;AAEA;EACE,YAAY;EACZ,eAAe;EACf,aAAa;EACb,6BAA6B;AAC/B;;AAEA;EACE,qBAAqB;EACrB,eAAe;EACf,cAAc;EACd,kBAAkB;EAClB,sBAAsB;EACtB,cAAc;AAChB;;AAEA;EACE,sBAAsB;EACtB,wBAAwB;EACxB,kBAAkB;EAClB,YAAY;EACZ,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,aAAa;EACb,aAAa;EACb,eAAe;AACjB;;AAEA;EACE,aAAa;AACf;;AAEA;EACE,kBAAkB;EAClB,iBAAiB;AACnB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,YAAY;EACZ,6BAA6B;EAC7B,kBAAkB;EAClB,eAAe;AACjB;;AAEA;EACE,6BAA6B;AAC/B;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,WAAW;EACX,aAAa;AACf;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,yBAAyB;AAC3B;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,0BAA0B;AAC5B;;AAEA;EACE,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,aAAa;EACb,YAAY;EACZ,qBAAqB;EACrB,yBAAyB;EACzB,gCAAgC;EAChC,4BAA4B;EAC5B,wBAAwB;AAC1B;;AAEA;;EAEE,wBAAwB;AAC1B;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;EACZ,wBAAwB;AAC1B;;AAEA;;;EAGE,cAAc;AAChB","sourcesContent":["@import url(\"https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700&display=swap\");\r\n\r\n* {\r\n  padding: 0;\r\n  margin: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\n:root {\r\n  --todo-color: #6d6868;\r\n  --todo-border-bottom: #f1f1f1;\r\n}\r\n\r\nbody {\r\n  font-family: \"Lato\", sans-serif;\r\n  background-color: #f5f5f5;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  min-height: 80vh;\r\n  font-size: 1.25rem;\r\n}\r\n\r\n.todo-container {\r\n  position: relative;\r\n  box-shadow: 0 3px 10px rgba(19, 17, 17, 0.21);\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  background: #fff;\r\n  margin: 0 auto;\r\n  width: 60%;\r\n}\r\n\r\n.todo-header,\r\nform {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1rem;\r\n  border-bottom: 2px solid var(--todo-border-bottom);\r\n}\r\n\r\n.todo-header {\r\n  padding: 1.5rem 1rem;\r\n}\r\n\r\n.todo-list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  overflow: hidden;\r\n}\r\n\r\n.todo-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 0.5rem 1.5rem;\r\n  border-bottom: 2px solid var(--todo-border-bottom);\r\n}\r\n\r\n.todo-item .description {\r\n  width: 100%;\r\n  color: var(--todo-color);\r\n  font-size: 1.25rem;\r\n}\r\n\r\ninput {\r\n  border: none;\r\n  padding: 0.8rem;\r\n  outline: none;\r\n  background-color: transparent;\r\n}\r\n\r\n.todoCheck {\r\n  display: inline-block;\r\n  height: 1.25rem;\r\n  width: 1.25rem;\r\n  margin-right: 16px;\r\n  border: 3px solid #ccc;\r\n  flex-shrink: 0;\r\n}\r\n\r\n.clear-completed {\r\n  background-color: #eee;\r\n  color: var(--todo-color);\r\n  font-size: 1.25rem;\r\n  border: none;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  padding: 2rem;\r\n  outline: none;\r\n  cursor: pointer;\r\n}\r\n\r\nbutton.hidden {\r\n  display: none;\r\n}\r\n\r\n.input-task {\r\n  font-style: italic;\r\n  font-size: 1.2rem;\r\n}\r\n\r\n.todo-item.list-highlight {\r\n  background-color: #e2e5b9;\r\n}\r\n\r\nbutton {\r\n  border: none;\r\n  background-color: transparent;\r\n  font-size: 1.25rem;\r\n  cursor: pointer;\r\n}\r\n\r\n.completed-task {\r\n  text-decoration: line-through;\r\n}\r\n\r\n.completed-task:hover {\r\n  color: #08910f;\r\n}\r\n\r\n.todoCheck::after {\r\n  content: \"\";\r\n  display: none;\r\n}\r\n\r\n.todoCheck.checked::after {\r\n  display: block;\r\n}\r\n\r\n.todoCheck.darken {\r\n  border: 2px solid #938f8f;\r\n}\r\n\r\n.todo-item .todoCheck.checked {\r\n  border: none;\r\n}\r\n\r\n.clear-completed:hover {\r\n  text-decoration: underline;\r\n}\r\n\r\n.todo-item .todoCheck::after {\r\n  position: relative;\r\n  top: 2px;\r\n  left: 7px;\r\n  width: 0.5rem;\r\n  height: 1rem;\r\n  border: solid #0b5d9b;\r\n  border-width: 0 3px 3px 0;\r\n  -webkit-transform: rotate(45deg);\r\n  -ms-transform: rotate(45deg);\r\n  transform: rotate(45deg);\r\n}\r\n\r\n.todo-refresh,\r\n.todo-add {\r\n  color: var(--todo-color);\r\n}\r\n\r\n.todo-item .todo-delete:hover {\r\n  color: #f00;\r\n}\r\n\r\n.todo-item .todo-move {\r\n  cursor: move;\r\n  color: var(--todo-color);\r\n}\r\n\r\n.todo-item .todo-move:hover,\r\n.todo-refresh:hover,\r\n.todo-add:hover {\r\n  color: #040202;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
