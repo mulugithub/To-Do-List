@@ -160,5 +160,21 @@ describe('TodoList', () => {
       // Remove the checkbox from the DOM
       document.body.removeChild(checkbox);
     });
+
+    
+    test('Clear completed tasks when checkbox is checked', () => {
+      // Simulate a click on the checkbox
+      checkbox.click();
+
+      // Call the clearCompleted method
+      todoList.clearCompleted();
+
+      // Assertions
+      expect(todoList.taskList).toEqual([
+        { description: 'Task 2', completed: false, index: 1 },
+        { description: 'Task 3', completed: false, index: 2 },
+      ]);
+      expect(document.querySelectorAll('.todo-list .todo-item').length).toBe(2);
+    });
   });
 });
