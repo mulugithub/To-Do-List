@@ -137,4 +137,28 @@ describe('TodoList', () => {
       ]);
     });
   });
+
+  describe('Clear all completed tasks', () => {
+    // Mock the checkbox element
+    let checkbox;
+    beforeEach(() => {
+      checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = true;
+      // Add the checkbox to the DOM
+      document.body.appendChild(checkbox);
+
+      // Initialize the task list
+      todoList.taskList = [
+        { description: 'Task 1', completed: false, index: 1 },
+        { description: 'Task 2', completed: true, index: 2 },
+        { description: 'Task 3', completed: true, index: 3 },
+      ];
+    });
+
+    afterEach(() => {
+      // Remove the checkbox from the DOM
+      document.body.removeChild(checkbox);
+    });
+  });
 });
