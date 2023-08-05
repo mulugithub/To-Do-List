@@ -116,7 +116,7 @@ describe('TodoList', () => {
       expect(todoList.taskList[todoList.taskList.length - 1].description).toEqual('task 2');
     });
   });
-
+  // Test update completed task status
   describe('updateCompletedStatus', () => {
     localStorageMock.clear();
     beforeEach(() => {
@@ -125,7 +125,8 @@ describe('TodoList', () => {
       todoList.taskList.push({ description: 'Task 2', completed: false, index: 2 });
       todoList.taskList.push({ description: 'Task 3', completed: true, index: 3 });
     });
-    test('Check if todo status changes on completion', () => {
+    test('Check if todo status changes on completion when checked the first task', () => {
+      localStorageMock.clear();
       let firstTodoItem = document.querySelector('.todo-list .todo-item span');
       updateCompletedStatus(firstTodoItem, todoList.taskList, 0);
       firstTodoItem = document.querySelector('.todo-list li:nth-child(1)');
@@ -136,45 +137,57 @@ describe('TodoList', () => {
         { description: 'Task 3', completed: true, index: 3 },
       ]);
     });
+    test('Check if todo status changes on completion when checked the 3rd task', () => {
+      localStorageMock.clear();
+      let thirdTodoItem = document.querySelector('.todo-list .todo-item span');
+      updateCompletedStatus(thirdTodoItem, todoList.taskList, 2);
+      thirdTodoItem = document.querySelector('.todo-list li:nth-child(3)');
+      expect(todoList.taskList[2].completed).toBe(false); // Updated assertion
+      expect(todoList.taskList).toEqual([
+        { description: 'Task 1', completed: false, index: 1 },
+        { description: 'Task 2', completed: false, index: 2 },
+        { description: 'Task 3', completed: false, index: 3 },
+      ]);
+    });
   });
 
+  // Test clear all completed tasks
   describe('Clear all completed tasks', () => {
-    // Mock the checkbox element
-    let checkbox;
+    localStorageMock.clear();
     beforeEach(() => {
-      checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.checked = true;
-      // Add the checkbox to the DOM
-      document.body.appendChild(checkbox);
-
-      // Initialize the task list
-      todoList.taskList = [
-        { description: 'Task 1', completed: false, index: 1 },
-        { description: 'Task 2', completed: true, index: 2 },
-        { description: 'Task 3', completed: true, index: 3 },
-      ];
+      // Initialize
+      todoList.taskList.push({ description: 'Task 1', completed: false, index: 1 });
+      todoList.taskList.push({ description: 'Task 2', completed: true, index: 2 });
+      todoList.taskList.push({ description: 'Task 3', completed: false, index: 3 });
     });
-
-    afterEach(() => {
-      // Remove the checkbox from the DOM
-      document.body.removeChild(checkbox);
-    });
-
-    
-    test('Clear completed tasks when checkbox is checked', () => {
-      // Simulate a click on the checkbox
-      checkbox.click();
-
-      // Call the clearCompleted method
-      todoList.clearCompleted();
-
-      // Assertions
-      expect(todoList.taskList).toEqual([
-        { description: 'Task 2', completed: false, index: 1 },
-        { description: 'Task 3', completed: false, index: 2 },
-      ]);
-      expect(document.querySelectorAll('.todo-list .todo-item').length).toBe(2);
+    describe('Test clearAllCmpleted function', () => {
+      localStorageMock.clear();
+      test('Clear completed when checked the first task', () => {
+        localStorageMock.clear();
+        let listItems = document.querySelectorAll('.todo-list .todo-item');
+        const firstTodoItem = document.querySelector('.todo-list .todo-item span');
+        updateCompletedStatus(firstTodoItem, todoList.taskList, 0);
+        listItems = document.querySelectorAll('.todo-list .todo-item');
+        todoList.clearCompleted();
+        expect(listItems.length).toBe(1);
+        // Assertions
+        expect(todoList.taskList).toEqual([
+          { description: 'Task 3', completed: false, index: 1 },
+        ]);
+      });
+      test('Clear completed when checked on the third task', () => {
+        localStorageMock.clear();
+        let listItems = document.querySelectorAll('.todo-list .todo-item');
+        const thirdTodoItem = document.querySelector('.todo-list .todo-item span');
+        updateCompletedStatus(thirdTodoItem, todoList.taskList, 2);
+        listItems = document.querySelectorAll('.todo-list .todo-item');
+        todoList.clearCompleted();
+        // Assertions
+        expect(listItems.length).toBe(1);
+        expect(todoList.taskList).toEqual([
+          { description: 'Task 1', completed: false, index: 1 },
+        ]);
+      });
     });
   });
 });

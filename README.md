@@ -83,6 +83,8 @@
 - [ ]  Clear all completed todo item
 - [ ]  Show mark task completion when click on checkbox
 - [ ]  Test add and remove task
+- [ ]  Test clear all completed tasks
+- [ ]  Test update completed status
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -169,7 +171,6 @@ To check for js errors run:
 > The following features will add to the project.
 
 - [ ]  Dragging each item and moving it into the desired position
-- [ ]  Test update status of each task
 - [ ]  Rebulid using React
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

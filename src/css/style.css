@@ -117,6 +117,10 @@ button {
   cursor: pointer;
 }
 
+.incompleted-task {
+  text-decoration: none;
+}
+
 .completed-task {
   text-decoration: line-through;
 }

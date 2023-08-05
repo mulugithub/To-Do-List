@@ -1,10 +1,6 @@
 import { saveData } from './localStorage.js';
 
 const updateStatus = (todoCheck, sortedArr, i) => {
-  // if (!todoCheck) {
-  //   console.error('Unable to update status: todoCheck is undefined');
-  //   return;
-  // }
   todoCheck.classList.toggle('checked');
   const input = todoCheck.nextElementSibling;
   if (todoCheck.classList.contains('checked')) {
